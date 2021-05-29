@@ -7,7 +7,8 @@ import { IconButton } from '@material-ui/core';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 
-import { getPositionX, useWidth } from '../utils';
+import useWidth from '../../utils/useWidth';
+import { getPositionX } from '../../utils';
 
 export default function Carousel({
 	breakpoints = {
