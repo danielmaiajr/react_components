@@ -1,4 +1,5 @@
 import React from 'react';
+import InfiniteCarousel from './components/infinite_carousel';
 
 import { CssBaseline } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
@@ -27,7 +28,7 @@ export default function App() {
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
-			TEST
+			<InfiniteCarousel />
 		</ThemeProvider>
 	);
 }
