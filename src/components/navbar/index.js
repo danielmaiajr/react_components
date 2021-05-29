@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { AppBar, Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import Cart from '../cart';
 
 export default function Navbar() {
 	const [ show, setShow ] = useState(false);
@@ -15,6 +16,7 @@ export default function Navbar() {
 					<button onClick={() => setShow(!show)}>CART</button>
 				</div>
 			</Container>
+			<Cart show={show} setShow={setShow} />
 		</AppBar>
 	);
 }
