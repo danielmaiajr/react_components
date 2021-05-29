@@ -33,10 +33,11 @@ const Image = ({ index, products }) => {
 		<div className={classes.wrapper}>
 			<div className={classes.buttonWrapper}>
 				<button className={classes.button} style={{ marginBottom: 5 }} onClick={() => setSlideIndex(0)}>
-					<img style={{ width: 40 }} src={products[index].image} key={0} />
+					<img alt="" style={{ width: 40 }} src={products[index].image} key={0} />
 				</button>
 				<button className={classes.button} onClick={() => setSlideIndex(1)}>
 					<img
+						alt=""
 						style={{ width: 40 }}
 						src={products[index].sideImage}
 						key={1}
@@ -46,8 +47,8 @@ const Image = ({ index, products }) => {
 			</div>
 
 			<Carousel slideIndex={slideIndex}>
-				<img style={{ width: '100%' }} src={products[index].image} key={0} />
-				<img style={{ width: '100%' }} src={products[index].sideImage} key={1} />
+				<img alt="" style={{ width: '100%' }} src={products[index].image} key={0} />
+				<img alt="" style={{ width: '100%' }} src={products[index].sideImage} key={1} />
 			</Carousel>
 		</div>
 	);
