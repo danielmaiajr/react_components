@@ -3,6 +3,8 @@ import React from 'react';
 import { CssBaseline } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
+import Test from './components/test';
+
 const theme = createMuiTheme({
 	overrides: {
 		MuiCssBaseline: {
@@ -27,7 +29,7 @@ export default function App() {
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
-			TEST
+			<Test />
 		</ThemeProvider>
 	);
 }
