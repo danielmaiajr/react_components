@@ -19,6 +19,10 @@ const theme = createMuiTheme({
 					boxSizing: 'border-box',
 					margin: 0,
 					padding: 0
+				},
+				img: {
+					pointerEvents: 'none',
+					userSelect: 'none'
 				}
 			}
 		}

@@ -2092,6 +2092,72 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-spring/animated@npm:~9.2.0":
+  version: 9.2.3
+  resolution: "@react-spring/animated@npm:9.2.3"
+  dependencies:
+    "@react-spring/shared": ~9.2.0
+    "@react-spring/types": ~9.2.0
+  peerDependencies:
+    react: ^16.8.0  || ^17.0.0
+  checksum: fa9ef222f47a4ea87124bb1f25634d0d826d0e5a05c87abde5624f57b9db65ec1faef2486f07ef779a0a99865107d69c0cc9fee9154bb2a43574393eee107959
+  languageName: node
+  linkType: hard
+
+"@react-spring/core@npm:~9.2.0":
+  version: 9.2.3
+  resolution: "@react-spring/core@npm:9.2.3"
+  dependencies:
+    "@react-spring/animated": ~9.2.0
+    "@react-spring/shared": ~9.2.0
+    "@react-spring/types": ~9.2.0
+  peerDependencies:
+    react: ^16.8.0  || ^17.0.0
+  checksum: 01e53a2ba7a1a8c6463f9b59cbc48cd361bfd2e6e0b07fb66aa1c1e7f5a32d735862791e667ff1c99cee0c88b8e2b8ae2009dee2c0fb814692f6ed83b04f93a2
+  languageName: node
+  linkType: hard
+
+"@react-spring/rafz@npm:~9.2.0":
+  version: 9.2.3
+  resolution: "@react-spring/rafz@npm:9.2.3"
+  checksum: 08c1c5a0cd2e50a217e05ed639287eba5eb9a5d3400787ccfe0eba3a1fc7a44f39ec25cf96798b08410e4b26de8b1aace0ac49c5995e32ae27ded1938648169e
+  languageName: node
+  linkType: hard
+
+"@react-spring/shared@npm:~9.2.0":
+  version: 9.2.3
+  resolution: "@react-spring/shared@npm:9.2.3"
+  dependencies:
+    "@react-spring/rafz": ~9.2.0
+    "@react-spring/types": ~9.2.0
+  peerDependencies:
+    react: ^16.8.0  || ^17.0.0
+  checksum: 356b9597e81f04e4e6577fd727f1c78cdb7ee11f598c6e39de2bf336e53696fb71f4d3fac12d777cd6b2a443f6e12f583c0c30be09100cdefbc45a1f03b2a2c5
+  languageName: node
+  linkType: hard
+
+"@react-spring/types@npm:~9.2.0":
+  version: 9.2.3
+  resolution: "@react-spring/types@npm:9.2.3"
+  checksum: c1917fe12b6adbacfa3facc37df3c7b96227c3de37384eba8f07f912e075a4e48f704b16ade91dd50fadc3c739dd74d4dc21ae6b7b067042d5ef48b022048fa4
+  languageName: node
+  linkType: hard
+
+"@react-spring/web@npm:^9.2.3":
+  version: 9.2.3
+  resolution: "@react-spring/web@npm:9.2.3"
+  dependencies:
+    "@react-spring/animated": ~9.2.0
+    "@react-spring/core": ~9.2.0
+    "@react-spring/shared": ~9.2.0
+    "@react-spring/types": ~9.2.0
+  peerDependencies:
+    react: ^16.8.0  || ^17.0.0
+    react-dom: ^16.8.0  || ^17.0.0
+  checksum: 001f317c996a236d52f18827b143777020e0832ebd07415c25e043205e40ed5f88e69df4f8ae9cd038b1974bec90eb0abb9f13d52d00f6a52dcd2b5faa262090
+  languageName: node
+  linkType: hard
+
 "@rollup/plugin-node-resolve@npm:^7.1.1":
   version: 7.1.3
   resolution: "@rollup/plugin-node-resolve@npm:7.1.3"
@@ -5364,6 +5430,13 @@ __metadata:
     whatwg-mimetype: ^2.3.0
     whatwg-url: ^8.0.0
   checksum: 42239927c6a202e2d02b7f41c94ca53e3cea036898b97b8bf6120ed1b25e0dd11c48ec7aa5c84cf807c2cb9f3a637df9fb50f3ca25a52863186a4ac46254726b
+  languageName: node
+  linkType: hard
+
+"debounce@npm:^1.2.0":
+  version: 1.2.1
+  resolution: "debounce@npm:1.2.1"
+  checksum: 04a00c6c45173ac6fb03ad3a7cf742fa4a86f6bf86b22f5b867085f739d0010ad98cbb92e80d60293faf6efb5452c637941092bd8d783cfeabe55c2000b1b07f
   languageName: node
   linkType: hard
 
@@ -12473,6 +12546,27 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"react-use-gesture@npm:^9.1.3":
+  version: 9.1.3
+  resolution: "react-use-gesture@npm:9.1.3"
+  peerDependencies:
+    react: ">= 16.8.0"
+  checksum: acb46284767a19082fb8777a735936380cc543a0a5b3d4b234e64f5af8b27c48624dcaa1b089f2a89e16a859ab88db736d922f8fac5bde4c9b7da486eb81ca52
+  languageName: node
+  linkType: hard
+
+"react-use-measure@npm:^2.0.4":
+  version: 2.0.4
+  resolution: "react-use-measure@npm:2.0.4"
+  dependencies:
+    debounce: ^1.2.0
+  peerDependencies:
+    react: ">=16.13"
+    react-dom: ">=16.13"
+  checksum: 5328749ed9700b43aff6f61ba9925c220efff3477dac55605a9e411ac28832ab4ff142675ff084712f48f9a2baed3f829974785e7dac47636f6fd1d14e339113
+  languageName: node
+  linkType: hard
+
 "react@npm:^17.0.2":
   version: 17.0.2
   resolution: "react@npm:17.0.2"
@@ -12489,6 +12583,7 @@ fsevents@^1.2.7:
   dependencies:
     "@material-ui/core": ^4.11.4
     "@material-ui/icons": ^4.11.2
+    "@react-spring/web": ^9.2.3
     "@testing-library/jest-dom": ^5.11.4
     "@testing-library/react": ^11.1.0
     "@testing-library/user-event": ^12.1.10
@@ -12497,6 +12592,8 @@ fsevents@^1.2.7:
     react: ^17.0.2
     react-dom: ^17.0.2
     react-scripts: 4.0.3
+    react-use-gesture: ^9.1.3
+    react-use-measure: ^2.0.4
     web-vitals: ^1.0.1
   languageName: unknown
   linkType: soft
