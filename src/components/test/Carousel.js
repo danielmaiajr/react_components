@@ -11,17 +11,14 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { useSpring, useSprings, animated, config } from '@react-spring/web';
 import { useDrag } from 'react-use-gesture';
 
-import Image from './Image';
-
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
 //---------------------------------------
 //Needs number of slides with relation to the width size
 
-export default function Test() {
-	const size = [ ...Array(18) ];
+export default function Carousel({ children }) {
 	const numberOfItemSlides = 3;
-	const numberOfIndexs = size.length;
+	const numberOfIndexs = children.length;
 	const numberOfSlides = Math.ceil(numberOfIndexs / numberOfItemSlides);
 
 	const index = useRef(0);
@@ -29,7 +26,7 @@ export default function Test() {
 
 	const [ indexState, setIndexState ] = useState(0);
 
-	const classes = useStyles({ numberOfIndexs, numberOfItemSlides });
+	const classes = useCarouselStyles({ numberOfIndexs, numberOfItemSlides });
 	const [ styles, spring ] = useSpring(() => ({ x: 0, config: config.stiff }));
 	const [ newStyles, newSpring ] = useSprings(numberOfIndexs, () => ({
 		scale: 1,
@@ -73,7 +70,10 @@ export default function Test() {
 
 	const bind = useDrag(OnDrag, { axis: 'x' });
 
-	console.log('test');
+	console.log('carousel rendered...');
+
+	//-------------------------------------------------
+	//RETURN
 
 	return (
 		<div className={classes.wrapper}>
@@ -81,7 +81,7 @@ export default function Test() {
 				<animated.div className={classes.slider} style={styles} ref={width}>
 					{newStyles.map((styles, i) => (
 						<animated.div style={styles} key={i} className={classes.slide} {...bind(i)}>
-							<Image />
+							{children[i]}
 						</animated.div>
 					))}
 				</animated.div>
@@ -107,7 +107,7 @@ export default function Test() {
 	);
 }
 
-const useStyles = makeStyles({
+const useCarouselStyles = makeStyles({
 	wrapper: {
 		display: 'flex',
 		flexDirection: 'column',
