@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container } from '@material-ui/core';
 
-import Carousel from './Carousel';
+import Carousel from './carousel/index.js';
 import Image from './Image';
 
 export default function Test() {
