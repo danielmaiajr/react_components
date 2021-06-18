@@ -1,7 +1,5 @@
 import React, { useRef, useState } from 'react';
 
-import clsx from 'clsx';
-
 import { makeStyles } from '@material-ui/core/styles';
 
 import { IconButton } from '@material-ui/core';
@@ -10,6 +8,8 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 
 import { useSpring, useSprings, animated, config } from '@react-spring/web';
 import { useDrag } from 'react-use-gesture';
+
+import Dots from './Dots';
 
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
@@ -94,15 +94,7 @@ export default function Carousel({ children }) {
 				</IconButton>
 			</div>
 
-			<div className={classes.dotWrapper}>
-				{[ ...Array(numberOfSlides) ].map((dot, i) => {
-					return i === indexState ? (
-						<button className={clsx(classes.dot, classes.dotSelect)} key={i} />
-					) : (
-						<button className={classes.dot} key={i} onClick={() => OnDotClick(i)} />
-					);
-				})}
-			</div>
+			<Dots numberOfDots={numberOfSlides} index={indexState} OnClick={OnDotClick} />
 		</div>
 	);
 }
@@ -132,24 +124,6 @@ const useCarouselStyles = makeStyles({
 		display: 'flex',
 		justifyContent: 'center',
 		padding: '0 10px'
-	},
-	dotWrapper: {
-		display: 'flex',
-		margin: 10
-	},
-	dot: {
-		padding: 2,
-		margin: 2,
-		borderRadius: '50%',
-		border: '1px solid #CCC',
-		backgroundColor: '#FFF',
-		'&:hover': {
-			cursor: 'pointer'
-		}
-	},
-	dotSelect: {
-		border: '1px solid #555',
-		backgroundColor: '#555'
 	},
 	minusButton: {
 		position: 'absolute',
