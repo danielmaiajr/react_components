@@ -8,7 +8,7 @@ import { IconButton } from '@material-ui/core';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 
-import { useSpring, animated, config } from '@react-spring/web';
+import { useSpring, useSprings, animated, config } from '@react-spring/web';
 import { useDrag } from 'react-use-gesture';
 
 import Image from './Image';
@@ -31,6 +31,11 @@ export default function Test() {
 
 	const classes = useStyles({ numberOfIndexs, numberOfItemSlides });
 	const [ styles, spring ] = useSpring(() => ({ x: 0, config: config.stiff }));
+	const [ newStyles, newSpring ] = useSprings(numberOfIndexs, () => ({
+		scale: 1,
+		opacity: 1,
+		config: config.molasses
+	}));
 
 	//-------------------------------------------------
 	//Utility function SETINDEX AND ANIMATION
@@ -56,22 +61,28 @@ export default function Test() {
 		AnimateXPosition();
 	};
 
-	const OnDrag = ({ active, movement: [ mx ], direction: [ xDir ], distance }) => {
+	const OnDrag = ({ active, args: [ index ], movement: [ mx ], direction: [ xDir ], distance }) => {
 		if (!active && distance > 100) SetCurrentIndex(-xDir);
-
 		AnimateXPosition(active, mx);
+
+		newSpring.start((i) => {
+			if (!active) return { scale: 1, opacity: 1 };
+			return { scale: active && i === index ? 1.2 : 0.9, opacity: active && i !== index ? 0.5 : 1 };
+		});
 	};
 
 	const bind = useDrag(OnDrag, { axis: 'x' });
+
+	console.log('test');
 
 	return (
 		<div className={classes.wrapper}>
 			<div className={classes.sliderWrapper}>
 				<animated.div className={classes.slider} style={styles} ref={width}>
-					{size.map((_, i) => (
-						<div key={i} className={classes.slide} {...bind()}>
+					{newStyles.map((styles, i) => (
+						<animated.div style={styles} key={i} className={classes.slide} {...bind(i)}>
 							<Image />
-						</div>
+						</animated.div>
 					))}
 				</animated.div>
 
