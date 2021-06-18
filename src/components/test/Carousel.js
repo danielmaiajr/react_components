@@ -31,7 +31,7 @@ export default function Carousel({ children }) {
 	const [ newStyles, newSpring ] = useSprings(numberOfIndexs, () => ({
 		scale: 1,
 		opacity: 1,
-		config: config.molasses
+		config: config.default
 	}));
 
 	//-------------------------------------------------
