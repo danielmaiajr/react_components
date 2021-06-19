@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { useWindowSize } from 'react-use';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -11,7 +12,7 @@ import { useDrag } from 'react-use-gesture';
 
 import Dots from './Dots';
 
-const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
+import { clamp, ItemSlidesToShow } from './utils';
 
 //---------------------------------------
 //Needs number of slides with relation to the width size
