@@ -23,7 +23,7 @@ export default function Carousel({ children }) {
 	const numberOfSlides = Math.ceil(numberOfIndexs / numberOfItemSlides);
 
 	const index = useRef(0);
-	const width = useRef(0);
+	const carouselWidth = useRef(0);
 
 	const [ indexState, setIndexState ] = useState(0);
 
@@ -43,7 +43,7 @@ export default function Carousel({ children }) {
 	};
 
 	const AnimateXPosition = (dragMode = false, dragXOffset) => {
-		spring.start({ x: -index.current * width.current.clientWidth + (dragMode ? dragXOffset : 0) });
+		spring.start({ x: -index.current * carouselWidth.current.clientWidth + (dragMode ? dragXOffset : 0) });
 	};
 
 	//-------------------------------------------------
@@ -79,7 +79,7 @@ export default function Carousel({ children }) {
 	return (
 		<div className={classes.wrapper}>
 			<div className={classes.sliderWrapper}>
-				<animated.div className={classes.slider} style={styles} ref={width}>
+				<animated.div className={classes.slider} style={styles} ref={carouselWidth}>
 					{newStyles.map((styles, i) => (
 						<animated.div style={styles} key={i} className={classes.slide} {...bind(i)}>
 							{children[i]}
