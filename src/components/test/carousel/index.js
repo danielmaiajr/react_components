@@ -17,8 +17,20 @@ import { clamp, ItemSlidesToShow } from './utils';
 //---------------------------------------
 //Needs number of slides with relation to the width size
 
-export default function Carousel({ children }) {
-	const numberOfItemSlides = 3;
+export default function Carousel({
+	breakPoints = [
+		{ width: 1, itemsToShow: 1 },
+		{ width: 550, itemsToShow: 2, itemsToScroll: 2, pagination: false },
+		{ width: 850, itemsToShow: 3 },
+		{ width: 1150, itemsToShow: 4, itemsToScroll: 2 },
+		{ width: 1450, itemsToShow: 5 },
+		{ width: 1750, itemsToShow: 6 }
+	],
+	children
+}) {
+	const { width: windowsWidth } = useWindowSize();
+
+	const numberOfItemSlides = ItemSlidesToShow(breakPoints, windowsWidth);
 	const numberOfIndexs = children.length;
 	const numberOfSlides = Math.ceil(numberOfIndexs / numberOfItemSlides);
 
