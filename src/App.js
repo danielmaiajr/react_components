@@ -3,6 +3,10 @@ import React from 'react';
 import { CssBaseline } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
+import { BrowserRouter as Router } from 'react-router-dom';
+
+import PageTransition from './components/page_transition';
+
 const theme = createMuiTheme({
 	overrides: {
 		MuiCssBaseline: {
@@ -26,8 +30,10 @@ const theme = createMuiTheme({
 export default function App() {
 	return (
 		<ThemeProvider theme={theme}>
-			<CssBaseline />
-			TEST
+			<Router>
+				<CssBaseline />
+				<PageTransition />
+			</Router>
 		</ThemeProvider>
 	);
 }
