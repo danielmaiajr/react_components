@@ -23,6 +23,13 @@ const theme = createMuiTheme({
 				img: {
 					pointerEvents: 'none',
 					userSelect: 'none'
+				},
+				button: {
+					backgroundColor: 'inherit',
+					border: 'none',
+					'&:hover': {
+						cursor: 'pointer'
+					}
 				}
 			}
 		}

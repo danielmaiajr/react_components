@@ -1,29 +1,28 @@
-import React from 'react';
-import { Container } from '@material-ui/core';
+import React, { useState } from 'react';
 
-import Carousel from './carousel/index.js';
-import Image from './Image';
+import { TextField } from '@material-ui/core';
 
-const breakPoints = [
-	{ width: 1, itemsToShow: 1 },
-	{ width: 550, itemsToShow: 2, itemsToScroll: 2, pagination: false },
-	{ width: 850, itemsToShow: 3 },
-	{ width: 1150, itemsToShow: 4, itemsToScroll: 2 },
-	{ width: 1450, itemsToShow: 5 },
-	{ width: 1750, itemsToShow: 6 }
-];
+import Navigation from './mobile_navigation';
 
+const Page1 = ({ setShow }) => {
+	return <button onClick={() => setShow(1)}>PAGE2</button>;
+};
+const Page2 = (props) => {
+	console.log(props);
+	return (
+		<div>
+			<TextField label="Outlined" variant="outlined" fullWidth style={{ paddingBottom: 10 }} />
+			<TextField label="Outlined" variant="outlined" fullWidth />
+		</div>
+	);
+};
 export default function Test() {
-	const items = [ ...Array(9) ];
-	//const a = [ ...Array(10) ];
+	const [ show, setShow ] = useState(false);
 
 	return (
-		<Container>
-			<Carousel breakPoints={breakPoints}>
-				{items.map((_, j) => {
-					return <Image key={j} />;
-				})}
-			</Carousel>
-		</Container>
+		<Navigation show={show} setShow={setShow}>
+			<Page1 setShow={setShow} />
+			<Page2 setShow={setShow} />
+		</Navigation>
 	);
 }
