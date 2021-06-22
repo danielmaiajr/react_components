@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
 import { Switch, Route, Link, useLocation } from 'react-router-dom';
-import { useTransition, animated, config } from '@react-spring/web';
+import { useTransition, animated } from '@react-spring/web';
 
 const routes = [
 	{
@@ -23,7 +23,10 @@ export default function PageTransition() {
 
 	const transitions = useTransition(location, {
 		from: { opacity: 0 },
-		enter: { opacity: 1 }
+		enter: { opacity: 1 },
+		leave: { opacity: 0 },
+		trail: 100,
+		config: { duration: 100 }
 	});
 
 	return (
@@ -41,8 +44,8 @@ export default function PageTransition() {
 			</ul>
 			<hr />
 			<div style={{ padding: 30 }}>
-				{transitions((props, item) => (
-					<animated.div style={{ ...props }}>
+				{transitions(({ opacity }, item) => (
+					<animated.div style={{ position: 'absolute', opacity }}>
 						<Switch location={item}>
 							{routes.map((route, index) => (
 								<Route key={index} path={route.path} exact={route.exact}>
