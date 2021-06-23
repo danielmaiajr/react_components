@@ -1,83 +1,69 @@
-import React, { useEffect, useRef } from 'react';
-import { useMeasure } from 'react-use';
-import { useSpring, animated, config } from '@react-spring/web';
+import React from 'react';
+import { useWindowSize } from 'react-use';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Container } from '@material-ui/core';
 
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import { useTransition, animated } from '@react-spring/web';
 
-export default function Navigation({ show, setShow, children }) {
+const CART_WIDTH = 500;
+
+export default function Drawer({ show, onBackDropClick, children }) {
+	const { height, width } = useWindowSize();
+
 	const classes = useStyles();
-	const [ ref, { width } ] = useMeasure();
 
-	const refH = useRef([ React.createRef(), React.createRef() ]);
+	const transtions = useTransition(show, {
+		from: {
+			x: CART_WIDTH,
+			y: height,
+			opacity: 0
+		},
+		enter: {
+			x: 0,
+			y: 0,
+			opacity: 1
+		},
+		leave: {
+			x: CART_WIDTH,
+			y: height,
+			opacity: 0
+		},
+		reverse: show
+	});
 
-	const [ { x, height }, api ] = useSpring(() => ({ x: 0, config: config.default }));
-
-	useEffect(
-		() =>
-			api.start({
-				x: -show * width,
-				height: show ? refH.current[1].current.clientHeight : refH.current[0].current.clientHeight
-			}),
-		[ show, api, width ]
-	);
-
-	const Nav = ({ title, icon }) => (
-		<div className={classes.nav}>
-			<button className={classes.icon} onClick={() => setShow(!show)}>
-				{icon}
-			</button>
-			<div className={classes.title}>{title}</div>
-		</div>
-	);
-
-	return (
-		<div>
-			<animated.div className={classes.wrapper} style={{ height }}>
-				<animated.div className={classes.slider} style={{ x }} ref={ref}>
-					{children.map((child, i) => (
-						<Container>
-							<div ref={refH.current[i]}>
-								<Nav
-									icon={i === 0 ? '' : <ArrowBackIosIcon color="secondary" />}
-									title={i === 0 ? 'PAGE1' : 'PAGE2'}
-								/>
-								<div className={classes.content}>{child}</div>
-							</div>
-						</Container>
-					))}
-				</animated.div>
-			</animated.div>
-		</div>
+	return transtions(
+		({ x, y, opacity }, item) =>
+			item && (
+				<div className={classes.wrapper} style={{ pointerEvents: show ? 'auto' : 'none' }}>
+					<animated.div style={{ opacity }} className={classes.backDrop} onClick={onBackDropClick} />
+					<animated.div style={width > 850 ? { x } : { y, maxWidth: '100%' }} className={classes.drawer}>
+						{children}
+					</animated.div>
+				</div>
+			)
 	);
 }
 
 const useStyles = makeStyles({
 	wrapper: {
-		overflow: 'hidden',
-		backgroundColor: '#EEE'
-	},
-
-	slider: {
-		display: 'grid',
-		gridTemplateColumns: '100% 100%'
-	},
-	content: { padding: '20px 0' },
-	nav: {
-		position: 'relative',
-		display: 'flex',
-		padding: '30px 0',
-		flexDirection: 'column',
-		alignItems: 'center',
-		justifyContent: 'center'
-	},
-	icon: {
-		display: 'flex',
-		alignItems: 'center',
 		position: 'absolute',
-		left: 0
+		inset: 0,
+		overflow: 'hidden'
 	},
-	title: {}
+	backDrop: {
+		height: '100%',
+		width: '100%',
+		background: 'rgba(238,238,238,.7)'
+	},
+	drawer: {
+		position: 'absolute',
+		top: 0,
+		right: 0,
+		padding: '30px 50px',
+		maxWidth: CART_WIDTH,
+		width: '100%',
+		height: '100vh',
+		backgroundColor: '#FFF',
+		boxShadow: '0 5px 20px -5px rgb(0 0 0 / 7%);'
+	}
 });
