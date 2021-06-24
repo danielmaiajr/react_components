@@ -10,16 +10,16 @@ import { useSpring, animated } from '@react-spring/web';
 
 import Drawer from './mobile_navigation';
 
-export default function Test() {
-	const [ show, setShow ] = useState(false);
+const Test = (): React.ReactNode => {
+	const [ show, setShow ] = useState<boolean>(false);
 	const classes = useStyles();
 
 	const [ { scale }, api ] = useSpring(() => ({ scale: 1 }));
 	const bind = useHover(({ active }) => api.start({ scale: active ? 1.4 : 1 }));
 
-	const OnClick = () => setShow(!show);
+	const OnClick: React.MouseEventHandler = (): void => setShow(!show);
 
-	const Cart = () => (
+	const Cart = (): JSX.Element => (
 		<div className={classes.drawerHeader}>
 			<div>DRAWER</div>
 			<animated.button className={classes.closeButton} onClick={OnClick} style={{ scale }} {...bind()}>
@@ -40,7 +40,9 @@ export default function Test() {
 			</Drawer>
 		</div>
 	);
-}
+};
+
+export default Test;
 
 const useStyles = makeStyles({
 	wrapper: {

@@ -1,13 +1,18 @@
 import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { useTransition, animated } from '@react-spring/web';
 import { useWindowSize } from 'react-use';
 
-import { makeStyles } from '@material-ui/core/styles';
+const CART_WIDTH: number = 500;
+const MIN_MIDIA_QUERY: number = 850;
 
-import { useTransition, animated } from '@react-spring/web';
+interface PropTypes {
+	show: boolean;
+	onBackDropClick: React.MouseEventHandler;
+	children: React.ReactNode;
+}
 
-const CART_WIDTH = 500;
-
-export default function Drawer({ show, onBackDropClick, children }) {
+const Drawer = ({ show, onBackDropClick, children }: PropTypes): JSX.Element => {
 	const { height, width } = useWindowSize();
 
 	const classes = useStyles();
@@ -36,13 +41,18 @@ export default function Drawer({ show, onBackDropClick, children }) {
 			item && (
 				<div className={classes.wrapper} style={{ pointerEvents: show ? 'auto' : 'none' }}>
 					<animated.div style={{ opacity }} className={classes.backDrop} onClick={onBackDropClick} />
-					<animated.div style={width > 850 ? { x } : { y, maxWidth: '100%' }} className={classes.drawer}>
+					<animated.div
+						style={width > MIN_MIDIA_QUERY ? { x } : { y, maxWidth: '100%' }}
+						className={classes.drawer}
+					>
 						{children}
 					</animated.div>
 				</div>
 			)
 	);
-}
+};
+
+export default Drawer;
 
 const useStyles = makeStyles({
 	wrapper: {
