@@ -18,10 +18,10 @@ const SPAN_WIDTH: number = 100;
 const BACKDROP_HEIGHT: number = 350;
 
 const BackpropMenu = ({ menu }: PropTypes): JSX.Element => {
-	const classes = useStyles();
-
 	const [ index, setIndex ] = useState<number>(0);
 	const [ active, setActive ] = useState<boolean>(false);
+
+	const classes = useStyles();
 
 	const activeTransitions = useTransition(active, {
 		from: { height: 0 },
@@ -34,14 +34,15 @@ const BackpropMenu = ({ menu }: PropTypes): JSX.Element => {
 		enter: { opacity: 1 }
 	});
 
-	const [ styles, api ] = useSpring(() => ({
+	const [ { x, scale, color }, api ] = useSpring(() => ({
 		x: 0,
 		scale: 0,
+		color: '#AAA',
 		config: config.stiff
 	}));
 
 	const bind = useHover(({ active }) => {
-		api.start({ scale: active ? 1 : 0 });
+		api.start({ scale: active ? 1 : 0, color: active ? '#FFF' : '#AAA' });
 		setActive(false);
 	});
 
@@ -55,17 +56,17 @@ const BackpropMenu = ({ menu }: PropTypes): JSX.Element => {
 		<div className={classes.wrapper}>
 			<div className={classes.menuWrapper} {...bind()}>
 				{menu.map((m: Menu, i) => (
-					<div
+					<animated.div
 						key={i}
 						className={classes.menuName}
-						style={{ color: index === i ? '#FFF' : '#AAA' }}
+						style={i === index ? { color } : {}}
 						{...bindMenu(i)}
 					>
 						{m.title}
-					</div>
+					</animated.div>
 				))}
 
-				<animated.span className={classes.selectedIndex} style={styles} />
+				<animated.span className={classes.selectedIndex} style={{ x, scale }} />
 
 				{activeTransitions(
 					({ height }, active) =>
