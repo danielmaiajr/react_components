@@ -1,46 +1,79 @@
 import React, { useState } from 'react';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-import { useTransition, animated } from '@react-spring/web';
+import { useTransition, useSpring, animated, config } from '@react-spring/web';
 import { useHover } from 'react-use-gesture';
 
-interface PropTypes {
-	children?: React.ReactNode;
-	title: string;
+export interface Menu {
+	title: String;
+	content: JSX.Element | null;
 }
 
-const BackpropMenu = ({ children, title }: PropTypes): React.ReactNode => {
+interface PropTypes {
+	menu: Menu[];
+}
+
+const MENU_HEIGHT: number = 40;
+const SPAN_WIDTH: number = 100;
+const BACKDROP_HEIGHT: number = 350;
+
+const BackpropMenu = ({ menu }: PropTypes): JSX.Element => {
 	const classes = useStyles();
 
+	const [ index, setIndex ] = useState<number>(0);
 	const [ active, setActive ] = useState<boolean>(false);
 
-	const transitions = useTransition(active, {
-		from: { height: 0, opacity: 0 },
-		enter: { height: 500, opacity: 1 },
-		leave: { height: 0, opacity: 0 }
+	const activeTransitions = useTransition(active, {
+		from: { height: 0 },
+		enter: { height: BACKDROP_HEIGHT },
+		leave: { height: 0 }
 	});
 
-	const bind = useHover(() => {
-		children && setActive(!active);
+	const indexTransitions = useTransition(index, {
+		from: { opacity: 0 },
+		enter: { opacity: 1 }
 	});
 
-	console.log(children);
+	const [ styles, api ] = useSpring(() => ({
+		x: 0,
+		scale: 0,
+		config: config.stiff
+	}));
+
+	const bind = useHover(({ active }) => {
+		api.start({ scale: active ? 1 : 0 });
+		setActive(false);
+	});
+
+	const bindMenu = useHover(({ active, args: [ i ] }) => {
+		active && setIndex(i);
+		api.start({ x: i * SPAN_WIDTH });
+		setActive(menu[i].content ? true : false);
+	});
 
 	return (
 		<div className={classes.wrapper}>
-			<div {...bind()}>
-				<div className={classes.menuName}>{title}</div>
+			<div className={classes.menuWrapper} {...bind()}>
+				{menu.map((m: Menu, i) => (
+					<div key={i} className={classes.menuName} {...bindMenu(i)}>
+						{m.title}
+					</div>
+				))}
 
-				{children ? (
-					transitions(
-						(props, active) =>
-							active && (
-								<animated.div style={{ ...props }} className={classes.backdropWrapper}>
-									<div className={classes.backdropContent}>{children}</div>
-								</animated.div>
-							)
-					)
-				) : null}
+				<animated.span className={classes.selectedIndex} style={styles} />
+
+				{activeTransitions(
+					({ height }, active) =>
+						active && (
+							<animated.div style={{ height }} className={classes.backdropWrapper}>
+								{indexTransitions(({ opacity }) => (
+									<animated.div style={{ opacity }} className={classes.backdropContent}>
+										{menu[index].content}
+									</animated.div>
+								))}
+							</animated.div>
+						)
+				)}
 			</div>
 		</div>
 	);
@@ -50,20 +83,42 @@ export default BackpropMenu;
 
 const useStyles = makeStyles((theme: Theme) => ({
 	wrapper: {
+		position: 'relative',
 		display: 'flex',
+		justifyContent: 'center',
 		width: '100%',
-		fontSize: 11,
-		fontWeight: 'bold'
+		height: MENU_HEIGHT,
+		fontSize: 10,
+		fontWeight: 'bold',
+		color: '#AAA',
+		textTransform: 'uppercase'
+	},
+	menuWrapper: {
+		display: 'flex'
 	},
 	menuName: {
-		padding: '20px 40px',
-		cursor: 'pointer'
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+		width: SPAN_WIDTH,
+		padding: '20px',
+		cursor: 'pointer',
+		'&:hover': {
+			color: '#FFF'
+		}
+	},
+	selectedIndex: {
+		position: 'absolute',
+		width: SPAN_WIDTH,
+		bottom: 0,
+		height: 2,
+		backgroundColor: '#d13939'
 	},
 	backdropWrapper: {
-		position: 'absolute',
+		position: 'fixed',
 		overflow: 'hidden',
 		width: '100%',
-		top: 80,
+		top: MENU_HEIGHT,
 		left: 0,
 		color: '#000',
 		boxShadow: '0 1px 3px rgba(0,0,0,.3)'
