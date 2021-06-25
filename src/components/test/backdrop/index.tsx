@@ -55,7 +55,12 @@ const BackpropMenu = ({ menu }: PropTypes): JSX.Element => {
 		<div className={classes.wrapper}>
 			<div className={classes.menuWrapper} {...bind()}>
 				{menu.map((m: Menu, i) => (
-					<div key={i} className={classes.menuName} {...bindMenu(i)}>
+					<div
+						key={i}
+						className={classes.menuName}
+						style={{ color: index === i ? '#FFF' : '#AAA' }}
+						{...bindMenu(i)}
+					>
 						{m.title}
 					</div>
 				))}
@@ -102,10 +107,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 		alignItems: 'center',
 		width: SPAN_WIDTH,
 		padding: '20px',
-		cursor: 'pointer',
-		'&:hover': {
-			color: '#FFF'
-		}
+		cursor: 'pointer'
 	},
 	selectedIndex: {
 		position: 'absolute',
