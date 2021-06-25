@@ -1,29 +1,29 @@
-import React from 'react';
-import { Container } from '@material-ui/core';
+import { Container, makeStyles } from '@material-ui/core';
 
-import Carousel from './carousel/index.js';
-import Image from './Image';
-
-const breakPoints = [
-	{ width: 1, itemsToShow: 1 },
-	{ width: 550, itemsToShow: 2, itemsToScroll: 2, pagination: false },
-	{ width: 850, itemsToShow: 3 },
-	{ width: 1150, itemsToShow: 4, itemsToScroll: 2 },
-	{ width: 1450, itemsToShow: 5 },
-	{ width: 1750, itemsToShow: 6 }
-];
+import BackpropMenu from './backdrop';
 
 export default function Test() {
-	const items = [ ...Array(9) ];
-	//const a = [ ...Array(10) ];
-
+	const classes = useStyles();
 	return (
-		<Container>
-			<Carousel breakPoints={breakPoints}>
-				{items.map((_, j) => {
-					return <Image key={j} />;
-				})}
-			</Carousel>
-		</Container>
+		<div className={classes.nav}>
+			<Container className={classes.wrapper}>
+				<BackpropMenu title="TITLE">TEST1</BackpropMenu>
+				<BackpropMenu title="TITLE">TEST2</BackpropMenu>
+				<BackpropMenu title="TITLE">TEST3</BackpropMenu>
+				<BackpropMenu title="TITLE">TEST4</BackpropMenu>
+				<BackpropMenu title="TITLE" />
+			</Container>
+		</div>
 	);
 }
+const useStyles = makeStyles({
+	nav: {
+		height: 80,
+		display: 'flex',
+		backgroundColor: '#000',
+		color: '#EAEAEA'
+	},
+	wrapper: {
+		display: 'flex'
+	}
+});
