@@ -23,6 +23,10 @@ const theme = createMuiTheme({
 				img: {
 					pointerEvents: 'none',
 					userSelect: 'none'
+				},
+				a: {
+					textDecoration: 'none',
+					color: '#000'
 				}
 			}
 		}
