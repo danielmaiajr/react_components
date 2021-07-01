@@ -22,7 +22,7 @@ export default function Dots({ numberOfDots, index, OnClick }) {
 const useDotsStyles = makeStyles({
 	dotWrapper: {
 		display: 'flex',
-		margin: 10
+		margin: 5
 	},
 	dot: {
 		padding: 2,

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { useWindowSize } from 'react-use';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -26,6 +26,7 @@ export default function Carousel({
 		{ width: 1450, itemsToShow: 5 },
 		{ width: 1750, itemsToShow: 6 }
 	],
+	isInfinite = false,
 	children
 }) {
 	const { width: windowsWidth } = useWindowSize();
@@ -41,22 +42,23 @@ export default function Carousel({
 
 	const classes = useCarouselStyles({ numberOfIndexs, numberOfItemSlides });
 	const [ styles, spring ] = useSpring(() => ({ x: 0, config: config.stiff }));
-	const [ newStyles, newSpring ] = useSprings(numberOfIndexs, () => ({
-		scale: 1,
-		opacity: 1,
-		config: config.default
-	}));
 
 	//-------------------------------------------------
 	//Utility function SETINDEX AND ANIMATION
-	const SetCurrentIndex = (xDir) => {
-		setIndexState(clamp(index.current + xDir, 0, numberOfSlides - 1));
-		index.current = clamp(index.current + xDir, 0, numberOfSlides - 1);
-	};
+	const SetCurrentIndex = useCallback(
+		(xDir) => {
+			setIndexState(clamp(index.current + xDir, 0, numberOfSlides - 1));
+			index.current = clamp(index.current + xDir, 0, numberOfSlides - 1);
+		},
+		[ numberOfSlides ]
+	);
 
-	const AnimateXPosition = (dragMode = false, dragXOffset) => {
-		spring.start({ x: -index.current * carouselWidth.current.clientWidth + (dragMode ? dragXOffset : 0) });
-	};
+	const AnimateXPosition = useCallback(
+		(dragMode = false, dragXOffset) => {
+			spring.start({ x: -index.current * carouselWidth.current.clientWidth + (dragMode ? dragXOffset : 0) });
+		},
+		[ spring ]
+	);
 
 	//-------------------------------------------------
 	//Function events ONCLICK AND DRAG
@@ -74,14 +76,27 @@ export default function Carousel({
 	const OnDrag = ({ active, args: [ index ], movement: [ mx ], direction: [ xDir ], distance }) => {
 		if (!active && distance > 100) SetCurrentIndex(-xDir);
 		AnimateXPosition(active, mx);
-
-		newSpring.start((i) => {
-			if (!active) return { scale: 1, opacity: 1 };
-			return { scale: active && i === index ? 1.2 : 0.9, opacity: active && i !== index ? 0.5 : 1 };
-		});
 	};
 
 	const bind = useDrag(OnDrag, { axis: 'x' });
+
+	useEffect(
+		() => {
+			if (isInfinite) {
+				const timer = setInterval(() => {
+					if (index.current >= numberOfSlides - 1) {
+						index.current = 0;
+						setIndexState(0);
+					} else {
+						SetCurrentIndex(1);
+					}
+					AnimateXPosition();
+				}, 5000);
+				return () => clearInterval(timer);
+			}
+		},
+		[ isInfinite, SetCurrentIndex, AnimateXPosition, numberOfSlides ]
+	);
 
 	console.log('carousel rendered...');
 
@@ -92,19 +107,19 @@ export default function Carousel({
 		<div className={classes.wrapper}>
 			<div className={classes.sliderWrapper}>
 				<animated.div className={classes.slider} style={styles} ref={carouselWidth}>
-					{newStyles.map((styles, i) => (
-						<animated.div style={styles} key={i} className={classes.slide} {...bind(i)}>
-							{children[i]}
-						</animated.div>
+					{children.map((child, i) => (
+						<div key={i} className={classes.slide} {...bind(i)}>
+							{child}
+						</div>
 					))}
 				</animated.div>
 
-				<IconButton className={classes.minusButton} size="small" disableRipple onClick={() => OnClick(-1)}>
+				{/* <IconButton className={classes.minusButton} size="small" disableRipple onClick={() => OnClick(-1)}>
 					<ChevronLeftIcon />
 				</IconButton>
 				<IconButton className={classes.plusButton} size="small" disableRipple onClick={() => OnClick(1)}>
 					<ChevronRightIcon />
-				</IconButton>
+				</IconButton> */}
 			</div>
 
 			<Dots numberOfDots={numberOfSlides} index={indexState} OnClick={OnDotClick} />
